@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const FormData = require('form-data');
 const axios = require('axios');
 const dotenv = require('dotenv');
@@ -9,6 +10,8 @@ const multer = require('multer');
 dotenv.config();
 const app = express();
 const upload = multer({ dest: 'uploads/' });
+
+app.use(cors());
 
 app.get('/', (_, res) => {
   res.send('✅ Vectorizer Proxy работает');
