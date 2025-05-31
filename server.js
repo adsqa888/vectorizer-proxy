@@ -14,7 +14,7 @@ const upload = multer({ dest: 'uploads/' });
 app.use(cors());
 
 app.get('/', (_, res) => {
-  res.send('✅ Vectorizer Proxy работает');
+  res.send('✅ Vectorizer Proxy работает (тестовый режим)');
 });
 
 app.post('/vectorize', upload.single('image'), async (req, res) => {
@@ -22,7 +22,7 @@ app.post('/vectorize', upload.single('image'), async (req, res) => {
     const form = new FormData();
     form.append('image', fs.createReadStream(req.file.path));
 
-    const response = await axios.post('https://vectorizer.ai/api/v1/vectorize', form, {
+    const response = await axios.post('https://vectorizer.ai/api/v1/vectorize?mode=test', form, {
       headers: {
         ...form.getHeaders(),
         Authorization: 'Basic dms2NWVuemJleXk0d3ZrOnBqZW9udTk5aXY5cWVtOWZtcmRiZHU4bG83bWE1djdudmwycWIwZjFlNmpucm5uZzJmcWc='
