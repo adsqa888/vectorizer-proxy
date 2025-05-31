@@ -25,18 +25,21 @@ app.post('/vectorize', upload.single('image'), async (req, res) => {
     const response = await axios.post('https://vectorizer.ai/api/v1/vectorize', form, {
       headers: {
         ...form.getHeaders(),
-      },
-      auth: {
-        username: process.env.API_ID,
-        password: process.env.API_SECRET
-      },
+        Authorization: 'Basic dms2NWVuemJleXk0d3ZrOnBqZW9udTk5aXY5cWVtOWZtcmRiZHU4bG83bWE1djdudmwycWIwZjFlNmpucm5uZzJmcWc='
+      }
     });
 
     res.set('Content-Type', 'image/svg+xml');
     res.send(response.data);
     fs.unlinkSync(req.file.path);
   } catch (err) {
-    console.error('Ошибка:', err.message);
+    console.error('Ошибка запроса к vectorizer.ai:');
+    if (err.response) {
+      console.error('Код:', err.response.status);
+      console.error('Ответ:', err.response.data);
+    } else {
+      console.error('Ошибка:', err.message);
+    }
     res.status(500).send('Ошибка векторизации');
   }
 });
